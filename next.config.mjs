@@ -4,7 +4,7 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDevelopment ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://images.unsplash.com",
+  "img-src 'self' data:",
   "font-src 'self' data:",
   `connect-src 'self'${isDevelopment ? " ws: wss:" : ""}`,
   "frame-ancestors 'self'",
@@ -16,7 +16,7 @@ const contentSecurityPolicy = [
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    formats: ["image/avif", "image/webp"],
   },
   async headers() {
     return [{

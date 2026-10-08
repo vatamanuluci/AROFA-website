@@ -11,7 +11,7 @@ type ArofaLogoProps = {
 export function ArofaLogo({ className = "", locale = "ro", size = "header" }: ArofaLogoProps) {
   const dimensions = size === "footer"
     ? { width: 116, height: 84, className: "h-[72px] w-[100px]" }
-    : { width: 100, height: 72, className: "h-[58px] w-[81px]" }
+    : { width: 84, height: 60, className: "h-12 w-[67px]" }
 
   return (
     <Link href={localizeHref("/", locale)} className={`inline-flex shrink-0 items-center justify-center bg-white p-1 ${className}`} aria-label="AROFA">

@@ -89,7 +89,7 @@ export function ProjectsTabs({ locale = "ro" }: { locale?: Locale }) {
     <section className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12 gap-6">
+        <div className="mb-8 flex flex-col gap-6 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">
           <h2 className="text-3xl lg:text-5xl">
             <span className="font-medium">{text.title}</span>
             <br />
@@ -97,12 +97,13 @@ export function ProjectsTabs({ locale = "ro" }: { locale?: Locale }) {
           </h2>
           
           {/* Tabs */}
-          <div className="flex gap-4">
+          <div className="-mx-4 overflow-x-auto px-4 pb-1 lg:mx-0 lg:px-0">
+            <div className="flex min-w-max gap-2 sm:gap-3">
             {localizedTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 text-sm transition-colors ${
+                className={`min-h-11 whitespace-nowrap px-4 py-2 text-sm transition-colors ${
                   activeTab === tab.id
                     ? "bg-nardo text-white"
                     : "bg-secondary text-foreground hover:bg-primary/10"
@@ -111,6 +112,7 @@ export function ProjectsTabs({ locale = "ro" }: { locale?: Locale }) {
                 {tab.label}
               </button>
             ))}
+            </div>
           </div>
         </div>
 
@@ -125,6 +127,7 @@ export function ProjectsTabs({ locale = "ro" }: { locale?: Locale }) {
                 src={project.image}
                 alt={`${text.inspiration}: ${text.items[project.id - 1]}`}
                 fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-anthracite/80 via-transparent to-transparent" />

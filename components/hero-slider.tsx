@@ -42,7 +42,7 @@ export function HeroSlider({ locale = "ro" }: { locale?: Locale }) {
   return (
     <section className="relative bg-anthracite overflow-hidden">
       {/* Slides */}
-      <div className="relative min-h-[600px] lg:min-h-[700px]">
+      <div className="relative min-h-[520px] sm:min-h-[560px] lg:min-h-[700px]">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -56,16 +56,18 @@ export function HeroSlider({ locale = "ro" }: { locale?: Locale }) {
                 src={slide.image}
                 alt={slide.title}
                 fill
-                className="object-cover"
+                sizes="(min-width: 1024px) 65vw, 100vw"
+                className="object-cover object-center"
                 priority={index === 0}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-anthracite via-anthracite/50 to-transparent" />
+              <div className="absolute inset-0 bg-anthracite/35 lg:hidden" />
+              <div className="absolute inset-0 bg-gradient-to-r from-anthracite via-anthracite/55 to-transparent" />
             </div>
 
             {/* Content */}
             <div className="container mx-auto px-4 h-full relative z-10">
-              <div className="flex items-center h-full min-h-[600px] lg:min-h-[700px]">
-                <div className="max-w-xl">
+              <div className="flex h-full min-h-[520px] items-end pb-20 pt-8 sm:min-h-[560px] sm:items-center sm:pb-8 lg:min-h-[700px]">
+                <div className="w-full max-w-xl">
                   {/* Window Preview Image */}
                   {slide.windowImage && (
                     <div className="mb-4 w-24 h-32 relative">
@@ -79,19 +81,17 @@ export function HeroSlider({ locale = "ro" }: { locale?: Locale }) {
                   )}
                   
                   {/* Brand Card */}
-                  <div className="bg-nardo p-8 lg:p-10 text-white max-w-md">
-                    {index === 0 ? <h1 className="text-3xl lg:text-4xl mb-4 leading-tight">
-                      <span className="font-bold">{slide.title}</span>
-                      <br />
-                      <span className="font-light">{slide.subtitle}</span>
-                    </h1> : <h2 className="text-3xl lg:text-4xl mb-4 leading-tight">
-                      <span className="font-bold">{slide.title}</span>
-                      <br />
-                      <span className="font-light">{slide.subtitle}</span>
+                  <div className="w-full max-w-[calc(100vw-2rem)] bg-nardo/95 p-5 text-white sm:max-w-md sm:p-7 lg:p-10">
+                    {index === 0 ? <h1 className="mb-3 text-[30px] leading-tight sm:text-3xl lg:mb-4 lg:text-4xl">
+                      <span className="block font-bold">{slide.title}</span>
+                      <span className="mt-1 block break-words text-2xl font-light sm:text-3xl lg:text-4xl">{slide.subtitle}</span>
+                    </h1> : <h2 className="mb-3 text-[30px] leading-tight sm:text-3xl lg:mb-4 lg:text-4xl">
+                      <span className="block font-bold">{slide.title}</span>
+                      <span className="mt-1 block break-words text-2xl font-light sm:text-3xl lg:text-4xl">{slide.subtitle}</span>
                     </h2>}
                     <Link 
                       href={localizeHref(slide.ctaHref, locale)}
-                      className="inline-flex items-center gap-2 text-white hover:gap-3 transition-all mt-4"
+                      className="mt-3 inline-flex min-h-11 items-center gap-2 text-white transition-all hover:gap-3 lg:mt-4"
                     >
                       <Plus className="w-4 h-4" />
                       {slide.cta}
@@ -106,25 +106,25 @@ export function HeroSlider({ locale = "ro" }: { locale?: Locale }) {
       </div>
 
       {/* Navigation Arrows */}
-      <div className="absolute bottom-8 right-8 flex gap-2 z-20">
+      <div className="absolute bottom-4 right-4 z-20 flex gap-2 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8">
         <button
           onClick={prevSlide}
           aria-label={locale === "ro" ? "Slide anterior" : "Previous slide"}
-          className="w-12 h-12 border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition-colors disabled:opacity-50"
+          className="flex h-11 w-11 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10 disabled:opacity-50 sm:h-12 sm:w-12"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button
           onClick={nextSlide}
           aria-label={locale === "ro" ? "Slide următor" : "Next slide"}
-          className="w-12 h-12 border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+          className="flex h-11 w-11 items-center justify-center border border-white/30 text-white transition-colors hover:bg-white/10 sm:h-12 sm:w-12"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
       </div>
 
       {/* Bottom Help Bar */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20">
+      <div className="absolute bottom-0 left-1/2 z-20 hidden -translate-x-1/2 md:block">
         <div className="bg-nardo text-white flex items-center">
           <Link href={localizeHref("/ferestre", locale)} className="flex items-center gap-3 px-6 py-4 hover:bg-nardo/90 transition-colors border-r border-white/20">
             <HelpCircle className="w-8 h-8" />

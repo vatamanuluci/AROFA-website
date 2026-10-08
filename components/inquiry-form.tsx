@@ -40,7 +40,7 @@ export function InquiryForm({ locale = "ro" }: InquiryFormProps) {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const text = copy[locale]
-  const fieldClass = "w-full border border-border bg-secondary px-4 py-3 outline-none transition-colors focus:border-primary"
+  const fieldClass = "min-h-12 w-full border border-border bg-secondary px-4 py-3 text-base outline-none transition-colors focus:border-primary"
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -72,12 +72,12 @@ export function InquiryForm({ locale = "ro" }: InquiryFormProps) {
   const input = (key: "firstName" | "lastName" | "email" | "phone" | "company" | "cui" | "subject" | "city", label: string, required = true, type = "text") => (
     <label className="block space-y-2" key={key}>
       <span className="text-sm font-medium text-foreground/80">{label}{!required && <span className="ml-1 text-foreground/50">({text.optional})</span>}{required && " *"}</span>
-      <input required={required} type={type} value={form[key]} onChange={(event) => setForm((current) => ({ ...current, [key]: event.target.value }))} className={fieldClass} maxLength={key === "email" ? 200 : 150} autoComplete={key === "firstName" || key === "lastName" ? "name" : key === "email" ? "email" : key === "phone" ? "tel" : undefined} />
+      <input required={required} type={type} value={form[key]} onChange={(event) => setForm((current) => ({ ...current, [key]: event.target.value }))} className={fieldClass} maxLength={key === "email" ? 200 : 150} autoComplete={key === "firstName" ? "given-name" : key === "lastName" ? "family-name" : key === "email" ? "email" : key === "phone" ? "tel" : undefined} />
     </label>
   )
 
   return (
-    <div className="border border-border bg-background p-6 lg:p-8">
+    <div className="border border-border bg-background p-4 sm:p-6 lg:p-8">
       <div className="mb-6">
         <p className="text-sm uppercase tracking-[0.18em] text-primary mb-3">{text.title}</p>
         <p className="text-foreground/70 leading-relaxed">{text.intro}</p>
@@ -103,14 +103,14 @@ export function InquiryForm({ locale = "ro" }: InquiryFormProps) {
         </label>
         <label className="block space-y-2">
           <span className="text-sm font-medium text-foreground/80">{text.message} *</span>
-          <textarea required maxLength={3000} rows={6} value={form.message} onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))} className={`${fieldClass} resize-y`} />
+          <textarea required maxLength={3000} rows={6} value={form.message} onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))} className={`${fieldClass} min-h-36 resize-y`} />
         </label>
         <div className="absolute left-[-9999px]" aria-hidden="true"><label>Website<input tabIndex={-1} autoComplete="off" value={form.website} onChange={(event) => setForm((current) => ({ ...current, website: event.target.value }))} /></label></div>
         <label className="flex items-start gap-3 text-sm text-foreground/75">
-          <input required type="checkbox" checked={form.consent} onChange={(event) => setForm((current) => ({ ...current, consent: event.target.checked }))} className="mt-1" />
+          <input required type="checkbox" checked={form.consent} onChange={(event) => setForm((current) => ({ ...current, consent: event.target.checked }))} className="mt-0.5 h-5 w-5 flex-none" />
           <span>{text.consentStart}{" "}<Link href={localizeHref("/termeni-conditii", locale)} className="text-primary underline underline-offset-2">{text.terms}</Link>,{" "}<Link href={localizeHref("/politica-confidentialitate", locale)} className="text-primary underline underline-offset-2">{text.data}</Link> {text.and}{" "}<Link href={localizeHref("/cookies", locale)} className="text-primary underline underline-offset-2">{text.cookies}</Link>.</span>
         </label>
-        <button type="submit" disabled={submitting} className="inline-flex items-center gap-3 bg-nardo px-6 py-3 font-medium text-white transition-colors hover:bg-nardo/90 disabled:opacity-60">
+        <button type="submit" disabled={submitting} className="inline-flex min-h-12 w-full items-center justify-center gap-3 bg-nardo px-6 py-3 font-medium text-white transition-colors hover:bg-nardo/90 disabled:opacity-60 sm:w-auto">
           {submitting && <LoaderCircle className="h-4 w-4 animate-spin" />}{text.send}
         </button>
       </form>

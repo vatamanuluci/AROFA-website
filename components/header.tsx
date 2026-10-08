@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Search, Instagram, Linkedin, Facebook, Menu, X, ChevronRight } from "lucide-react"
+import { Search, Instagram, Linkedin, Facebook, Menu, X, ChevronDown, ChevronRight } from "lucide-react"
 import { ArofaLogo } from "./arofa-logo"
 import { QuoteRequestModal } from "./quote-request-modal"
 import { sitePages } from "@/lib/site-content"
@@ -14,6 +14,7 @@ import { getLocalizedPage } from "@/lib/localized-content"
 
 export function Header({ locale = "ro" }: { locale?: Locale }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [openMobileSection, setOpenMobileSection] = useState<number | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [quoteModalOpen, setQuoteModalOpen] = useState(false)
@@ -30,6 +31,22 @@ export function Header({ locale = "ro" }: { locale?: Locale }) {
     { label: text.nav.installation, href: localizeHref("/servicii-de-montaj", locale) },
     { label: locale === "en" ? "About AROFA" : locale === "fr" ? "A propos d'AROFA" : locale === "nl" ? "Over AROFA" : "Despre AROFA", href: localizeHref("/despre-noi", locale) },
   ]
+  const mobileNavPaths = [
+    [["usi", "aluminiu"], ["usi", "pvc"], ["usi-culisante"], ["usi-de-garaj"]],
+    [["usi-de-garaj-industriale", "automatizare-control-acces"], ["usi-de-garaj-industriale", "dimensionare"], ["usi-de-garaj-industriale", "montaj-service"]],
+    [["ferestre", "aluminiu"], ["ferestre", "pvc"], ["ferestre", "lemn"], ["ferestre", "fier"], ["plase-insecte"]],
+    [["sisteme-umbrire", "rulouri", "aplicate"], ["sisteme-umbrire", "rulouri", "integrate"], ["sisteme-umbrire", "jaluzele", "manuale"], ["sisteme-umbrire", "jaluzele", "motorizate"], ["sisteme-umbrire", "screensolar", "manual"], ["sisteme-umbrire", "screensolar", "motorizat"]],
+    [["servicii-de-montaj", "masuratori-planificare"], ["servicii-de-montaj", "ferestre-usi"], ["servicii-de-montaj", "usi-garaj-industriale"], ["servicii-de-montaj", "sisteme-umbrire"]],
+    [["calitate-certificata"], ["montaj-profesionist"], ["durabilitate"], ["case-history"], ["contact"]],
+  ]
+  const mobileNavSections = mainNavItems.map((item, index) => ({
+    ...item,
+    children: mobileNavPaths[index].map((slug) => ({
+      href: localizeHref(`/${slug.join("/")}`, locale),
+      label: getLocalizedPage(slug, locale)?.title ?? slug[slug.length - 1]?.replaceAll("-", " ") ?? "",
+    })),
+  }))
+  const overviewLabel = locale === "en" ? "View overview" : locale === "fr" ? "Voir l’ensemble" : locale === "nl" ? "Bekijk overzicht" : "Vezi prezentarea"
   const searchableSlugs = new Set(["usi", "usi-de-garaj-industriale", "ferestre", "sisteme-umbrire", "servicii-de-montaj", "despre-noi", "contact"])
   const searchResults = searchQuery.trim().length === 0
     ? []
@@ -41,7 +58,7 @@ export function Header({ locale = "ro" }: { locale?: Locale }) {
   return (
     <header className="sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-anthracite text-white">
+      <div className="hidden bg-anthracite text-white md:block">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-end py-2 gap-6 text-sm">
             <div className="flex items-center gap-6">
@@ -145,7 +162,7 @@ export function Header({ locale = "ro" }: { locale?: Locale }) {
 
             {/* Mobile Menu Button */}
             <button 
-              className="xl:hidden p-2"
+              className="flex h-11 w-11 shrink-0 items-center justify-center border border-white/20 bg-white/5 text-white xl:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
               aria-expanded={mobileMenuOpen}
@@ -160,27 +177,56 @@ export function Header({ locale = "ro" }: { locale?: Locale }) {
       {mobileMenuOpen && (
         <div className="xl:hidden absolute inset-x-0 top-full max-h-[calc(100vh-5rem)] bg-anthracite text-white z-50 overflow-y-auto shadow-2xl">
           <div className="container mx-auto px-4 py-6">
-            {mainNavItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="block border-b border-white/10 py-4 text-lg"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+            <div className="divide-y divide-white/10 border-y border-white/10">
+              {mobileNavSections.map((item, index) => {
+                const isOpen = openMobileSection === index
+                return (
+                  <div key={item.label}>
+                    <button
+                      type="button"
+                      className="flex min-h-14 w-full items-center justify-between gap-4 py-3 text-left text-base font-medium"
+                      onClick={() => setOpenMobileSection(isOpen ? null : index)}
+                      aria-expanded={isOpen}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown className={`h-5 w-5 flex-none transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {isOpen && (
+                      <div className="pb-4">
+                        <Link
+                          href={item.href}
+                          className="mb-1 flex min-h-11 items-center gap-2 bg-white/5 px-4 text-sm font-semibold text-primary"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {overviewLabel}<ChevronRight className="h-4 w-4" />
+                        </Link>
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="flex min-h-11 items-center px-4 text-sm text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false)
                 setQuoteModalOpen(true)
               }}
-              className="block mt-6 py-4 bg-nardo text-white text-center font-medium"
+              className="mt-6 block min-h-12 w-full bg-nardo px-4 py-3 text-center font-medium text-white"
             >
               {text.nav.requestQuote}
             </button>
-            <div className="mt-6 flex items-center justify-center gap-2 border-t border-white/10 pt-5">
+            <div className="mt-6 grid grid-cols-4 gap-1 border-t border-white/10 pt-5">
               {locales.map((language) => (
                 <Link
                   key={language}
@@ -188,7 +234,7 @@ export function Header({ locale = "ro" }: { locale?: Locale }) {
                   prefetch={false}
                   onClick={() => setMobileMenuOpen(false)}
                   aria-label={localeNames[language]}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm font-semibold ${language === locale ? "bg-nardo text-white" : "text-white/65"}`}
+                  className={`flex min-h-11 flex-col items-center justify-center gap-1 px-1 py-2 text-xs font-semibold ${language === locale ? "bg-nardo text-white" : "text-white/65"}`}
                 >
                   <Image src={localeFlags[language]} alt="" width={24} height={16} className="h-4 w-6 object-cover" />
                   <span>{localeLabels[language]}</span>

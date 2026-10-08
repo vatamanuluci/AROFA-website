@@ -14,7 +14,7 @@ import type { Locale } from "@/lib/i18n"
 
 export function HomePageContent({ locale = "ro" }: { locale?: Locale }) {
   return (
-    <main>
+    <main className="pb-20 md:pb-0">
       <Header locale={locale} />
       <HeroSlider locale={locale} />
       <MaterialSection locale={locale} />

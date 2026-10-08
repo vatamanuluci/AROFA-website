@@ -23,7 +23,7 @@ export function AboutSection({ locale = "ro" }: { locale?: Locale }) {
   return (
     <section className="py-16 lg:py-24 bg-secondary">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
           {/* Image */}
           <div className="relative">
             <div className="aspect-[4/3] relative overflow-hidden">
@@ -31,12 +31,13 @@ export function AboutSection({ locale = "ro" }: { locale?: Locale }) {
                 src="/photos/21.jpg"
                 alt=""
                 fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
               />
             </div>
             {/* Stats overlay */}
-            <div className="absolute -bottom-8 -right-4 lg:-right-8 bg-nardo text-white p-6 lg:p-8">
-              <div className="grid grid-cols-2 gap-6">
+            <div className="relative bg-nardo p-5 text-white md:absolute md:-bottom-8 md:-right-4 md:p-6 lg:-right-8 lg:p-8">
+              <div className="grid grid-cols-2 gap-5 lg:gap-6">
                 {localizedStats.map((stat) => (
                   <div key={stat.label} className="text-center">
                     <stat.icon className="w-6 h-6 mx-auto mb-2 opacity-70" />

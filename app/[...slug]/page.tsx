@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { ArrowRight, Check, ChevronRight, MessageCircle } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { FloatingHelpButton } from "@/components/floating-help-button"
 import { InquiryForm } from "@/components/inquiry-form"
 import { QuoteRequestPageModal } from "@/components/quote-request-modal"
 import { ConsultationRequestButton } from "@/components/consultation-request-button"
@@ -127,21 +128,21 @@ export default async function ContentPage({ params }: PageProps) {
   }
 
   return (
-    <main>
+    <main className="pb-20 md:pb-0">
       <Header locale={locale} />
 
       <section className="bg-anthracite text-white">
-        <div className="container mx-auto px-4 py-20 lg:py-28">
+        <div className="container mx-auto px-4 py-14 sm:py-20 lg:py-28">
           <div className="max-w-4xl">
             <p className="text-sm uppercase tracking-[0.2em] text-primary mb-5">{page.eyebrow}</p>
-            <h1 className="text-4xl lg:text-6xl font-medium leading-tight mb-6">{page.title}</h1>
-            <p className="max-w-3xl text-lg lg:text-xl text-white/75 leading-relaxed">{page.intro}</p>
-            <div className="flex flex-wrap gap-4 mt-8">
+            <h1 className="mb-5 text-3xl font-medium leading-tight sm:text-4xl lg:mb-6 lg:text-6xl">{page.title}</h1>
+            <p className="max-w-3xl text-base leading-relaxed text-white/75 sm:text-lg lg:text-xl">{page.intro}</p>
+            <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-4">
               {page.ctaLabel && page.ctaHref && (
                 page.ctaHref === "/contact" ? (
                   <ConsultationRequestButton
                     locale={locale}
-                    className="inline-flex items-center gap-3 bg-nardo px-6 py-3 text-white font-medium hover:bg-nardo/90 transition-colors"
+                    className="inline-flex min-h-12 items-center justify-center gap-3 bg-nardo px-6 py-3 font-medium text-white transition-colors hover:bg-nardo/90"
                   >
                     {page.ctaLabel}
                     <ArrowRight className="w-4 h-4" />
@@ -149,7 +150,7 @@ export default async function ContentPage({ params }: PageProps) {
                 ) : (
                   <Link
                     href={localizeHref(page.ctaHref, locale)}
-                    className="inline-flex items-center gap-3 bg-nardo px-6 py-3 text-white font-medium hover:bg-nardo/90 transition-colors"
+                    className="inline-flex min-h-12 items-center justify-center gap-3 bg-nardo px-6 py-3 font-medium text-white transition-colors hover:bg-nardo/90"
                   >
                     {page.ctaLabel}
                     <ArrowRight className="w-4 h-4" />
@@ -160,7 +161,7 @@ export default async function ContentPage({ params }: PageProps) {
                 href={whatsappConsultantHref(locale)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 border border-white/20 px-6 py-3 text-white hover:bg-white/5 transition-colors"
+                className="inline-flex min-h-12 items-center justify-center gap-3 border border-white/20 px-6 py-3 text-white transition-colors hover:bg-white/5"
               >
                 {text.page.talkToConsultant}
                 <MessageCircle className="h-5 w-5 text-[#25D366]" aria-hidden="true" />
@@ -290,6 +291,7 @@ export default async function ContentPage({ params }: PageProps) {
       )}
 
       <Footer locale={locale} />
+      <FloatingHelpButton locale={locale} />
       {slugPath === "solicita-oferta" && <QuoteRequestPageModal locale={locale} />}
     </main>
   )

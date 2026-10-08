@@ -17,7 +17,18 @@ export function FloatingHelpButton({ locale = "ro" }: { locale?: Locale }) {
   ]
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <>
+      <Link
+        href={whatsappConsultantHref(locale)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed inset-x-4 bottom-4 z-50 flex min-h-14 items-center justify-center gap-3 bg-[#25D366] px-5 font-semibold text-white shadow-xl md:hidden"
+        aria-label={text.nav.whatsapp}
+      >
+        <MessageSquare className="h-5 w-5" />
+        <span>{text.nav.whatsapp}</span>
+      </Link>
+      <div className="fixed bottom-6 right-6 z-50 hidden md:block">
       {/* Help Menu */}
       {isOpen && (
         <div className="absolute bottom-16 right-0 bg-white shadow-2xl w-64 animate-in slide-in-from-bottom-4 fade-in duration-200">
@@ -64,6 +75,7 @@ export function FloatingHelpButton({ locale = "ro" }: { locale?: Locale }) {
           </div>
         )}
       </button>
-    </div>
+      </div>
+    </>
   )
 }
