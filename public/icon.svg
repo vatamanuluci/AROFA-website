@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs>
+    <linearGradient id="halo" x1="18" y1="20" x2="160" y2="165" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b84d8" stop-opacity=".25"/>
+      <stop offset=".5" stop-color="#f6cf16" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#e51b2b" stop-opacity=".25"/>
+    </linearGradient>
+  </defs>
+  <rect width="180" height="180" rx="40" fill="#fff"/>
+  <circle cx="90" cy="90" r="78" fill="url(#halo)"/>
+  <path d="M25 120 69 60l58 68H96L69 92l-20 28Z" fill="#0b84d8"/>
+  <path d="M88 80 108 58l36 70h-27Z" fill="#f6cf16"/>
+  <path d="M119 78 136 58l29 70h-21Z" fill="#e51b2b"/>
+  <path d="M143 58h9l29 70h-12Z" fill="#e51b2b"/>
+  <g fill="#0b84d8">
+    <rect x="64" y="101" width="11" height="11"/>
+    <rect x="79" y="101" width="11" height="11"/>
+    <rect x="64" y="116" width="11" height="11"/>
+    <rect x="79" y="116" width="11" height="11"/>
+  </g>
+</svg>
