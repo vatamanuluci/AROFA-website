@@ -14,7 +14,7 @@ export function ArofaLogo({ className = "", locale = "ro", size = "header" }: Ar
     : { width: 84, height: 60, className: "h-12 w-[67px]" }
 
   return (
-    <Link href={localizeHref("/", locale)} className={`inline-flex shrink-0 items-center justify-center bg-white p-1 ${className}`} aria-label="AROFA">
+    <Link href={localizeHref("/", locale)} className={`inline-flex shrink-0 items-center justify-center ${className}`} aria-label="AROFA">
       <Image
         src="/arofa-logo.png"
         alt="AROFA"
